@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
+import Posts from '../Posts/posts';
+import {Route , Link} from 'react-router-dom';
+import FullPost from '../FullPost/FullPost';
+import NewPost from '../NewPost/NewPost';
 import './Blog.css';
 
 class Blog extends Component {
@@ -12,41 +11,24 @@ class Blog extends Component {
         selectedPostId : null
     }
 
-    componentDidMount (){
-        axios.get('https://jsonplaceholder.typicode.com/posts')
-        .then(
-            response => {
-                const posts = response.data.slice(0,4);
-                const updatedPosts = posts.map(t =>{
-                    return{
-                        ...t,
-                        author:'Max'
-                    }
-                });
-                this.setState({posts:updatedPosts});
-                console.log(response);
-            }
-        );
-    }
-    onSelectedhandler = (id) =>{
-        this.setState({selectedPostId:id});
-
-    }
+    
+    
     render () {
-        const posts = this.state.posts.map(x => {
-            return <Post key = {x.id} title = {x.title} author = {x.author} clicked = {() => this.onSelectedhandler(x.id)}/>
-        })
+        
         return (
-            <div>
-                <section className="Posts">
-                    {posts}
-                </section>
-                <section>
-                    <FullPost id = {this.state.selectedPostId} posts = {this.state.posts} />
-                </section>
-                <section>
-                    <NewPost />
-                </section>
+            <div className="Blog">
+                <header>
+                    <nav>
+                        <ul>
+                            <li ><Link to ="/">  Home</Link></li>
+                            <li><Link to = '/newPost'>New Post</Link></li>
+                        </ul>
+                    </nav>
+                </header>
+                    <Route path ="/" component = {Posts} exact />
+                    <Route path ="/newPost" component = {NewPost} exact />
+                    <Route path = "/fullPost" component = {FullPost} exact />
+                    
             </div>
         );
     }
