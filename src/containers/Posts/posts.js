@@ -24,13 +24,16 @@ class Posts extends Component{
         );
     }
     onSelectedhandler = (id) =>{
-        this.setState({selectedPostId:id});
-
+        this.props.history.push({pathname:'/fullpost/' +id });
     }
 
     render(){
         const posts = this.state.posts.map(x => {
-            return <Post key = {x.id} title = {x.title} author = {x.author} clicked = {() => this.onSelectedhandler(x.id)}/>
+            return( 
+            //<Link to = {"/fullpost/" + x.id} key = {x.id}> 
+                <Post  title = {x.title} author = {x.author} clicked = {() => this.onSelectedhandler(x.id)}/>
+              //  </Link>
+              )
         })
         return(
 
